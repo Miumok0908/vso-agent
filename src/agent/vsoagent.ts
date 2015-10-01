@@ -44,8 +44,9 @@ var messageListener: listener.MessageListener;
 var runWorker = function(hostContext: ctxm.HostContext, agentApi: agentm.ITaskAgentApi, workerMsg: cm.IWorkerMessage) {
 
     var worker: childProcess.ChildProcess = childProcess.fork(path.join(__dirname, 'vsoworker'), [], {
+        cwd: process.cwd(),
         env: process.env,
-        execArgv: []
+        encoding: ''
     });
     
     var abandoned: boolean = false;
@@ -202,7 +203,7 @@ cm.readBasicCreds()
 })
 .fail(function(err) {
     console.error('Error starting the agent');
-    console.error(err.message);
+    console.error(err);
     if (hostContext) {
         hostContext.error(err.stack);
     }
